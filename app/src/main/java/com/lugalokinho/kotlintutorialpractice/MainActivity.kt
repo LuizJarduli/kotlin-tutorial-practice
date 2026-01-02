@@ -5,8 +5,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,9 +34,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             KotlinTutorialPracticeTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    CompletedTask(
-                        modifier = Modifier.padding(innerPadding)
-                    )
+                    Quadrant()
                 }
             }
         }
@@ -50,9 +51,7 @@ fun TutorialBanner(modifier: Modifier = Modifier) {
 @Composable
 fun TutorialTitle(title: String, modifier: Modifier = Modifier) {
     Text(
-        text = title,
-        fontSize = 24.sp,
-        modifier = modifier
+        text = title, fontSize = 24.sp, modifier = modifier
     )
 }
 
@@ -64,17 +63,14 @@ fun TutorialParagraph(text: String, modifier: Modifier = Modifier) {
 @Composable
 fun Tutorial(modifier: Modifier = Modifier) {
     val title = stringResource(R.string.jetpack_compose_tutorial_title)
-    val firstParagraph =
-        stringResource(R.string.tutorial_first_paragraph)
-    val secondParagraph =
-        stringResource(R.string.tutorial_second_paragraph)
+    val firstParagraph = stringResource(R.string.tutorial_first_paragraph)
+    val secondParagraph = stringResource(R.string.tutorial_second_paragraph)
 
     Column(verticalArrangement = Arrangement.Top, modifier = modifier) {
         TutorialBanner(modifier = modifier.fillMaxWidth())
         TutorialTitle(title = title, modifier.padding(16.dp))
         TutorialParagraph(
-            text = firstParagraph,
-            modifier = modifier.padding(start = 16.dp, end = 16.dp)
+            text = firstParagraph, modifier = modifier.padding(start = 16.dp, end = 16.dp)
         )
         TutorialParagraph(text = secondParagraph, modifier.padding(16.dp))
     }
@@ -92,23 +88,17 @@ fun CompletedTaskImage(modifier: Modifier = Modifier) {
 
 @Composable
 fun CompletedTaskMessage(
-    message: String,
-    fontSize: Int,
-    fontWeight: FontWeight,
-    modifier: Modifier = Modifier
+    message: String, fontSize: Int, fontWeight: FontWeight, modifier: Modifier = Modifier
 ) {
     Text(
-        text = message,
-        fontSize = fontSize.sp,
-        fontWeight = fontWeight,
-        modifier = modifier
+        text = message, fontSize = fontSize.sp, fontWeight = fontWeight, modifier = modifier
     )
 }
 
 @Composable
 fun CompletedTask(modifier: Modifier = Modifier) {
-    val message = "All tasks completed"
-    val description = "Nice work!"
+    val message = stringResource(R.string.all_tasks_completed)
+    val description = stringResource(R.string.nice_work)
 
     Column(
         verticalArrangement = Arrangement.Center,
@@ -132,10 +122,79 @@ fun CompletedTask(modifier: Modifier = Modifier) {
 
 // [END completed_task_practice]
 
+// [START quadrant_practice]
+
+@Composable
+fun QuadrantItem(
+    title: String, description: String, modifier: Modifier = Modifier
+) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
+    ) {
+        Text(
+            text = title, fontWeight = FontWeight.Bold, modifier = Modifier.padding(bottom = 16.dp)
+        )
+        Text(text = description, textAlign = TextAlign.Justify)
+    }
+}
+
+@Composable
+fun Quadrant(modifier: Modifier = Modifier) {
+    val title1 = stringResource(R.string.text_composable)
+    val description1 = stringResource(R.string.description_1)
+    val title2 = stringResource(R.string.image_composable)
+    val description2 = stringResource(R.string.description_2)
+    val title3 = stringResource(R.string.row_composable)
+    val description3 = stringResource(R.string.description_3)
+    val title4 = stringResource(R.string.column_composable)
+    val description4 = stringResource(R.string.description_4)
+
+    Column(modifier = modifier.fillMaxSize()) {
+        Row(modifier.weight(1f)) {
+            QuadrantItem(
+                title = title1,
+                description = description1,
+                modifier = modifier
+                    .weight(1f)
+                    .background(color = Color(0xFFEADDFF))
+            )
+            QuadrantItem(
+                title = title2,
+                description = description2,
+                modifier = modifier
+                    .weight(1f)
+                    .background(color = Color(0xFFD0BCFF))
+            )
+        }
+        Row(modifier.weight(1f)) {
+            QuadrantItem(
+                title = title3,
+                description = description3,
+                modifier = modifier
+                    .weight(1f)
+                    .background(color = Color(0xFFB69DF8))
+            )
+            QuadrantItem(
+                title = title4,
+                description = description4,
+                modifier = modifier
+                    .weight(1f)
+                    .background(color = Color(0xFFF6EDFF))
+            )
+        }
+    }
+}
+
+// [END quadrant_practice]
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     KotlinTutorialPracticeTheme {
-        CompletedTask()
+        Quadrant()
     }
 }
